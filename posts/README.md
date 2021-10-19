@@ -1,8 +1,8 @@
 ---
 title: "Next Readme file"
 date: "Oct 18 2021"
-excerpt: "To learn more about Next.js, take a look at the following resources:"
-arthur: Vercel Team"
+excerpt: "To learn more about Next.js, take a look at the following resources."
+arthur: Vercel Team
 ---
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

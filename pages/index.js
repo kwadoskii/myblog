@@ -12,8 +12,8 @@ export default function Home({ posts }) {
         <title>My Blog</title>
       </Head>
 
-      <main className="bg-blue-100 min-h-screen">
-        <div className="px-4 container mx-auto py-9 grid md:grid-cols-2 lg:grid-cols-3 gap-y-5 gap-x-4 items-start">
+      <main className="min-h-screen bg-blue-50">
+        <div className="container grid justify-center p-3 mx-auto md:px-4 md:py-9 gap-y-5 gap-x-4 grid-cols-auto-fill auto-rows-10px">
           {posts.map((post, index) => (
             <Post post={post} key={index} />
           ))}
@@ -29,7 +29,7 @@ export async function getStaticProps() {
   const files = fs.readdirSync(path.join("posts"));
 
   const posts = files.map((filename) => {
-    const slug = filename.replace(".md", "");
+    const slug = filename.replace(".md", "").split(" ").join("-");
     const markdownMeta = fs.readFileSync(path.join("posts", filename), "utf-8");
 
     const { data: frontmatter } = matter(markdownMeta);

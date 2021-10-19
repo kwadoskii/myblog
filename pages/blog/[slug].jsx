@@ -12,18 +12,23 @@ export default function PostPage({ frontmatter: { title, date, cover_image }, co
         <title>{`${title} - My Blog`}</title>
       </Head>
 
-      <main className="bg-blue-100 min-h-screen">
-        <div className="container mx-auto px-4 py-8">
-          <h3 className="text-gray-800 text-2xl font-semibold">{title}</h3>
+      <main className="min-h-screen bg-blue-100">
+        <div className="container px-4 py-8 mx-auto">
+          <h3 className="text-2xl font-semibold text-gray-800">{title}</h3>
           <p>posted on {date}</p>
 
           {cover_image && (
-            <div className="h-40 w-40 relative">
-              <Image src={cover_image} objectFit="cover" layout="fill" className="rounded-lg" />
+            <div className="relative w-40 h-40">
+              {/* <Image src={cover_image} objectFit="cover" layout="fill" className="rounded-lg" /> */}
+              <img
+                src={cover_image}
+                className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-t-lg"
+                alt=""
+              />
             </div>
           )}
           <div
-            className="prose prose-lg lg:prose-xl max-w-7xl prose-blue bg-white mx-auto p-8 lg:p-16 rounded-lg"
+            className="p-8 mx-auto prose prose-lg bg-white rounded-lg lg:prose-xl max-w-7xl prose-blue lg:p-16"
             dangerouslySetInnerHTML={{ __html: marked(content) }}
           ></div>
         </div>
@@ -36,9 +41,11 @@ export async function getStaticPaths() {
   const files = fs.readdirSync(path.join("posts"));
   const paths = files.map((filename) => ({
     params: {
-      slug: filename.replace(".md", ""),
+      slug: filename.replace(".md", "").split(" ").join("-"),
     },
   }));
+
+  console.log(paths);
 
   return {
     paths,
@@ -47,7 +54,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  const markdownWithMeta = fs.readFileSync(path.join("posts", slug + ".md"), "utf-8");
+  const markdownWithMeta = fs.readFileSync(
+    path.join("posts", `${slug.replace(/-/g, " ")}.md`),
+    "utf-8"
+  );
 
   const { content, data: frontmatter } = matter(markdownWithMeta);
 
