@@ -26,7 +26,7 @@ export default function Home({ posts }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // const files = fs.readdirSync(path.join("posts"));
 
   // const posts = files.map((filename) => {
