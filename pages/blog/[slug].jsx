@@ -44,42 +44,49 @@ export default function PostPage({ frontmatter: { title, date, cover_image }, co
   );
 }
 
-export async function getStaticPaths() {
-  // const files = fs.readdirSync(path.join("posts"));
-  // const paths = files.map((filename) => ({
-  //   params: {
-  //     slug: filename.replace(".md", "").split(" ").join("-"),
-  //   },
-  // }));
+// export async function getStaticPaths() {
+//   // const files = fs.readdirSync(path.join("posts"));
+//   // const paths = files.map((filename) => ({
+//   //   params: {
+//   //     slug: filename.replace(".md", "").split(" ").join("-"),
+//   //   },
+//   // }));
 
-  const { data: post } = await fetch(`${server}/api/posts`, { method: "GET" }).then((res) =>
-    res.json()
-  );
+//   const { data: post } = await fetch(`${server}/api/posts`, { method: "GET" }).then((res) =>
+//     res.json()
+//   );
 
-  const paths = post.map((p) => ({
-    params: {
-      slug: p._id,
-    },
-  }));
+//   const paths = post.map((p) => ({
+//     params: {
+//       slug: p._id,
+//     },
+//   }));
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params: { slug } }) {
+export async function getServerSideProps({ params: { slug } }) {
   // const markdownWithMeta = fs.readFileSync(
   //   path.join("posts", `${slug.replace(/-/g, " ")}.md`),
   //   "utf-8"
   // );
 
-  const {
-    data: { content: markdownWithMeta },
-  } = await fetch(`${server}/api/posts/${slug}`, { method: "GET" }).then((res) => res.json());
+  const { data } = await fetch(`${server}/api/posts/${slug}`, { method: "GET" }).then((res) =>
+    res.json()
+  );
 
   //increment post view counts
 
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const { content: markdownWithMeta } = data;
   const { content, data: frontmatter } = matter(markdownWithMeta);
 
   return {
