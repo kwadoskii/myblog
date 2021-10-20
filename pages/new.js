@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { server } from "../configs/server";
 
 export default function NewPage() {
   const [content, setContent] = useState("");
@@ -7,7 +8,7 @@ export default function NewPage() {
 
     console.log("content", content);
 
-    const { status, message } = await fetch("http://localhost:3000/api/posts", {
+    const { status, message } = await fetch(`${server}/api/posts`, {
       method: "POST",
       headers: {
         Accept: "application/json",

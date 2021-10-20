@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import Head from "next/head";
 import marked from "marked";
 import Image from "next/image";
+import { server } from "../../configs/server";
 
 export default function PostPage({ frontmatter: { title, date, cover_image }, content }) {
   return (
@@ -51,8 +52,8 @@ export async function getStaticPaths() {
   //   },
   // }));
 
-  const { data: post } = await fetch("http://localhost:3000/api/posts", { method: "GET" }).then(
-    (res) => res.json()
+  const { data: post } = await fetch(`${server}/api/posts`, { method: "GET" }).then((res) =>
+    res.json()
   );
 
   const paths = post.map((p) => ({
@@ -75,9 +76,7 @@ export async function getStaticProps({ params: { slug } }) {
 
   const {
     data: { content: markdownWithMeta },
-  } = await fetch(`http://localhost:3000/api/posts/${slug}`, { method: "GET" }).then((res) =>
-    res.json()
-  );
+  } = await fetch(`${server}/api/posts/${slug}`, { method: "GET" }).then((res) => res.json());
 
   //increment post view counts
 
