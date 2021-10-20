@@ -22,9 +22,14 @@ module.exports = {
         medium3: "span 18",
         large: "span 19",
       },
+      height: {
+        minheightlg: "calc(100vh - 66px)",
+        minheight: "calc(100vh - 50px)",
+      },
       typography: {
         DEFAULT: {
           css: {
+            maxWidth: "100%",
             img: { borderRadius: "0.75rem", marginLeft: "auto", marginRight: "auto" },
           },
         },
