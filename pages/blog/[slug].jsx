@@ -3,24 +3,29 @@ import matter from "gray-matter";
 // import path from "path";
 import Head from "next/head";
 import marked from "marked";
+import { Remarkable } from "remarkable";
+import { linkify } from "remarkable/linkify";
 import Image from "next/image";
 import { server } from "../../configs/server";
 
-export default function PostPage({ frontmatter: { title, date, cover_image }, content }) {
+export default function PostPage({ content, post }) {
+  const md = new Remarkable({ typographer: true });
+  md.use(linkify);
+
   return (
     <>
       <Head>
-        <title>{`${title} - My Blog`}</title>
+        <title>{`${post.title} - My Blog`}</title>
       </Head>
 
       <main className="min-h-screen bg-blue-50">
         <div className="container p-2 mx-auto lg:px-4 lg:py-8">
           <div className="w-full mx-auto bg-white rounded-lg shadow-xl lg:w-3/4">
-            {cover_image && (
+            {post.coverImage && (
               <div className="relative w-full h-64 lg:h-[32rem]">
                 {/* <Image src={cover_image} objectFit="cover" layout="fill" className="rounded-lg" /> */}
                 <img
-                  src={cover_image}
+                  src={post.coverImage}
                   className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-t-lg"
                   alt=""
                 />
@@ -29,12 +34,14 @@ export default function PostPage({ frontmatter: { title, date, cover_image }, co
 
             <div className="p-3 lg:p-16">
               <h3 className="mb-3 text-2xl font-black text-gray-800 md:font-black lg:text-5xl">
-                {title}
+                {post.title}
               </h3>
-              <p className="my-2 mb-6 text-lg text-gray-600">posted on {date}</p>
+              <p className="my-2 mb-6 text-lg text-gray-600">
+                posted on {post.createdAt.substr(0, 10)}
+              </p>
               <div
                 className="mx-auto prose prose-lg lg:prose-xl prose-blue"
-                dangerouslySetInnerHTML={{ __html: marked(content) }}
+                dangerouslySetInnerHTML={{ __html: md.render(content) }}
               ></div>
             </div>
           </div>
@@ -86,14 +93,13 @@ export async function getServerSideProps({ params: { slug } }) {
     };
   }
 
-  const { content: markdownWithMeta } = data;
+  const { content: markdownWithMeta, ...post } = data;
   const { content, data: frontmatter } = matter(markdownWithMeta);
 
   return {
     props: {
-      frontmatter,
-      slug,
       content,
+      post,
     },
   };
 }

@@ -1,6 +1,6 @@
 // import fs from "fs";
-import Head from "next/head";
 // import path from "path";
+import Head from "next/head";
 import Footer from "../components/Footer";
 import matter from "gray-matter";
 import Post from "../components/Post";
@@ -45,9 +45,10 @@ export async function getServerSideProps() {
   posts = posts.map((post) => {
     const { data: frontmatter } = matter(post);
     // const slug = frontmatter.title.split(" ").join("-");
+
     const slug = post._id;
 
-    return { slug, frontmatter };
+    return { slug, ...post };
   });
 
   return {
