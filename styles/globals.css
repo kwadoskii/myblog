@@ -13,3 +13,11 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.mde-preview {
+  background: rgba(239, 246, 255, 1);
+}
+
+.mde-text {
+  @apply outline-none focus:ring-2;
+}
