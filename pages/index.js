@@ -1,8 +1,5 @@
-// import fs from "fs";
-// import path from "path";
 import Head from "next/head";
 import Footer from "../components/Footer";
-import matter from "gray-matter";
 import Post from "../components/Post";
 import { server } from "../configs/server";
 
@@ -27,29 +24,9 @@ export default function Home({ posts }) {
 }
 
 export async function getServerSideProps() {
-  // const files = fs.readdirSync(path.join("posts"));
-
-  // const posts = files.map((filename) => {
-  //   const slug = filename.replace(".md", "").split(" ").join("-");
-  //   const markdownMeta = fs.readFileSync(path.join("posts", filename), "utf-8");
-
-  //   const { data: frontmatter } = matter(markdownMeta);
-
-  //   return { slug, frontmatter };
-  // });
-
   let { data: posts } = await fetch(`${server}/api/posts`, {
     method: "GET",
   }).then((res) => res.json());
-
-  posts = posts.map((post) => {
-    const { data: frontmatter } = matter(post);
-    // const slug = frontmatter.title.split(" ").join("-");
-
-    const slug = post._id;
-
-    return { slug, ...post };
-  });
 
   return {
     props: {

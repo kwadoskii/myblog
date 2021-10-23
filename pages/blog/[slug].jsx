@@ -1,11 +1,6 @@
-// import fs from "fs";
-import matter from "gray-matter";
-// import path from "path";
 import Head from "next/head";
-import marked from "marked";
 import { Remarkable } from "remarkable";
 import { linkify } from "remarkable/linkify";
-import Image from "next/image";
 import { server } from "../../configs/server";
 
 export default function PostPage({ content, post }) {
@@ -23,7 +18,6 @@ export default function PostPage({ content, post }) {
           <div className="w-full mx-auto bg-white rounded-lg shadow-xl lg:w-3/4">
             {post.coverImage && (
               <div className="relative w-full h-64 lg:h-[32rem]">
-                {/* <Image src={cover_image} objectFit="cover" layout="fill" className="rounded-lg" /> */}
                 <img
                   src={post.coverImage}
                   className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-t-lg"
@@ -76,25 +70,18 @@ export default function PostPage({ content, post }) {
 // }
 
 export async function getServerSideProps({ params: { slug } }) {
-  // const markdownWithMeta = fs.readFileSync(
-  //   path.join("posts", `${slug.replace(/-/g, " ")}.md`),
-  //   "utf-8"
-  // );
-
   const { data } = await fetch(`${server}/api/posts/${slug}`, { method: "GET" }).then((res) =>
     res.json()
   );
 
   //increment post view counts
-
   if (!data) {
     return {
       notFound: true,
     };
   }
 
-  const { content: markdownWithMeta, ...post } = data;
-  const { content, data: frontmatter } = matter(markdownWithMeta);
+  const { content, ...post } = data;
 
   return {
     props: {

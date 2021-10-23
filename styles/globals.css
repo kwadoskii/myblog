@@ -21,3 +21,7 @@ body {
 .mde-text {
   @apply outline-none focus:ring-2;
 }
+
+.mde-preview {
+  @apply prose prose-blue px-5;
+}

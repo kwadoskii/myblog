@@ -45,8 +45,13 @@ export default function NewPage() {
     }).then((res) => res.json());
 
     if (status === "success") {
+      setTitle("");
       setContent("");
+      setExcerpt("");
+      setCoverImage("");
       alert(message);
+    } else {
+      alert("Something went wrong try again.");
     }
   };
 
