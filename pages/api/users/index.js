@@ -1,5 +1,5 @@
 import { connect, disconnect } from "mongoose";
-import { Post } from "../../../models/posts";
+import { User } from "../../../models/users";
 import { POST, GET, DB_OPTIONS, DB_URI } from "../../../configs/methods";
 
 export default async function post(req, res) {
@@ -10,25 +10,19 @@ export default async function post(req, res) {
     console.log("db connected and running");
 
     if (method === GET) {
-      const posts = await Post.find()
-        .sort({ createdAt: "desc" })
-        .populate("arthur", ["-password", "-__v", "-createdAt", "-updatedAt"], "User")
-        .select({ __v: false });
-
-      return res.status(200).json({ status: "success", data: posts });
+      const users = await User.find().sort({ createdAt: "desc" }).select({ __v: false });
+      return res.status(200).json({ status: "success", data: users });
     }
 
     if (method === POST) {
-      let post = new Post({ ...req.body });
-      await post.save();
-      post = await Post.findById(post._id)
-        .populate("arthur", ["-password", "-__v", "-createdAt", "-updatedAt"], "User")
-        .select({ __v: false, updatedAt: false });
+      let user = new User({ ...req.body });
+      await user.save();
+      user = await User.findById(user._id).select({ __v: false, password: false });
 
       return res.status(201).json({
         status: "success",
-        message: "Post created successfully",
-        data: post,
+        message: "User created successfully",
+        data: user,
       });
     }
 
