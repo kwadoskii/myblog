@@ -6,7 +6,6 @@ import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import Loading from "../components/Loading";
 import ReactMde from "react-mde";
-import * as Showdown from "showdown";
 import { Remarkable } from "remarkable";
 import "react-mde/lib/styles/css/react-mde-all.css";
 
@@ -28,6 +27,8 @@ export default function NewPage() {
 
   const submitPost = async (e) => {
     e.preventDefault();
+
+    if (!content) return alert("Post content is required");
 
     const { status, message } = await fetch(`${server}/api/posts`, {
       method: "POST",
@@ -54,13 +55,6 @@ export default function NewPage() {
       alert("Something went wrong try again.");
     }
   };
-
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true,
-  });
 
   const md = new Remarkable();
   const loadSuggestions = (text) => {
@@ -106,6 +100,7 @@ export default function NewPage() {
             </label>
             <input
               type="text"
+              required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               id="title"
@@ -137,6 +132,7 @@ export default function NewPage() {
             </label>
             <input
               type="text"
+              required
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               id="excerpt"

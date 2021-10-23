@@ -16,11 +16,11 @@
     "mongoose": "^6.0.11",
     "next": "11.1.2",
     "next-auth": "^4.0.0-beta.4",
+    "random-avatar-generator": "^2.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-mde": "^11.5.0",
-    "remarkable": "^2.0.1",
-    "showdown": "^1.9.1"
+    "remarkable": "^2.0.1"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.2.2",

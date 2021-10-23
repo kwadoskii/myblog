@@ -7,7 +7,7 @@ export default function Home({ posts }) {
   return (
     <>
       <Head>
-        <title>My Blog</title>
+        <title>Home - My Blog</title>
       </Head>
 
       <main className="min-h-screen bg-blue-50">
@@ -24,7 +24,7 @@ export default function Home({ posts }) {
 }
 
 export async function getServerSideProps() {
-  let { data: posts } = await fetch(`${server}/api/posts`, {
+  const { data: posts } = await fetch(`${server}/api/posts`, {
     method: "GET",
   }).then((res) => res.json());
 
