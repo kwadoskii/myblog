@@ -39,6 +39,18 @@ export const userSchema = new Schema(
       minlength: 2,
       maxlength: 1024,
     },
+    login: {
+      count: {
+        type: Number,
+        default: 0,
+        min: 0,
+      },
+      lastLogin: {
+        type: Date,
+      },
+      select: false,
+    },
+
     __v: { select: false },
   },
   { timestamps: true }

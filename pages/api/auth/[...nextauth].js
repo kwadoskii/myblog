@@ -33,6 +33,7 @@ const options = {
   },
   jwt: {
     secret: "INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw",
+    // signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
   },
   theme: {
     colorScheme: "auto",

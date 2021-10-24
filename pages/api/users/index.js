@@ -10,14 +10,23 @@ export default async function post(req, res) {
     console.log("db connected and running");
 
     if (method === GET) {
-      const users = await User.find().sort({ createdAt: "desc" }).select({ __v: false });
+      const users = await User.find()
+        .sort({ createdAt: "desc" })
+        .select(["-__v", "-login", "-createdAt", "-updatedAt", "-password"]);
+
       return res.status(200).json({ status: "success", data: users });
     }
 
     if (method === POST) {
       let user = new User({ ...req.body });
       await user.save();
-      user = await User.findById(user._id).select({ __v: false, password: false });
+      user = await User.findById(user._id).select([
+        "-__v",
+        "-login",
+        "-createdAt",
+        "-updatedAt",
+        "-password",
+      ]);
 
       return res.status(201).json({
         status: "success",

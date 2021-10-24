@@ -19,6 +19,11 @@ export default async function post(req, res) {
           message: "Invalid username or password",
         });
       } else {
+        await User.findOneAndUpdate(
+          { username },
+          { $inc: { ["login.count"]: 1 }, $set: { "login.lastLogin": new Date() } }
+        );
+
         return res.status(200).json({
           status: "success",
           data: {

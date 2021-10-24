@@ -11,12 +11,13 @@ export default async function handler(req, res) {
     console.log("db connected and running");
 
     const id = validateId(req, res);
-    let user = await User.findById(id).select({
-      __v: false,
-      password: false,
-      createdAt: false,
-      updatedAt: false,
-    });
+    let user = await User.findById(id).select([
+      "-__v",
+      "-login",
+      "-createdAt",
+      "-updatedAt",
+      "-password",
+    ]);
 
     if (!user) res.status(404).send({ status: "error", message: `User with id ${id} not found!` });
 
@@ -33,10 +34,13 @@ export default async function handler(req, res) {
           .status(402)
           .send({ status: "error", message: "Username or email already exists" });
 
-      const newUser = await User.findByIdAndUpdate(id, { ...req.body }, { new: true }).select({
-        __v: false,
-        password: false,
-      });
+      const newUser = await User.findByIdAndUpdate(id, { ...req.body }, { new: true }).select([
+        "-__v",
+        "-login",
+        "-createdAt",
+        "-updatedAt",
+        "-password",
+      ]);
 
       return res
         .status(202)
