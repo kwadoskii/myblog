@@ -146,7 +146,7 @@ export default function NewPage() {
           <div className="flex my-3.5 gap-3 flex-col md:flex-row">
             <div className="flex flex-col w-full">
               <label htmlFor="source" className="mb-1.5 text-gray-700 font-semibold">
-                Source Url
+                Source URL
               </label>
               <input
                 type="url"
@@ -154,7 +154,7 @@ export default function NewPage() {
                 onChange={(e) => setSource(e.target.value)}
                 id="source"
                 className="p-2.5 rounded-lg outline-none focus:ring-2 text-lg w-full mx-auto"
-                placeholder="Link to cover image"
+                placeholder="Link to source document"
               />
             </div>
             <div className="flex flex-col w-full">
