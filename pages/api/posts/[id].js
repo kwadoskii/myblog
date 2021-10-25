@@ -18,6 +18,8 @@ export default async function handler(req, res) {
     if (!post) res.status(404).send({ status: "error", message: `Post with id ${id} not found!` });
 
     if (method === GET) {
+      await Post.findByIdAndUpdate(id, { $inc: { views: 1 } });
+
       return res.status(200).send({ status: "success", data: post });
     }
 

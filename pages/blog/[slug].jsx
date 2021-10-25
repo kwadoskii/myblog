@@ -3,6 +3,7 @@ import { Remarkable } from "remarkable";
 import { linkify } from "remarkable/linkify";
 import { server } from "../../configs/server";
 import { AvatarGenerator } from "random-avatar-generator";
+import Link from "next/link";
 
 export default function PostPage({ content, post }) {
   const md = new Remarkable({ typographer: true });
@@ -49,11 +50,13 @@ export default function PostPage({ content, post }) {
                   </div>
                   <p className="text-gray-600 ">
                     posted on{" "}
-                    {post.createdAt.substr(0, 10) +
-                      ", " +
-                      createdAt.getHours() +
-                      ":" +
-                      createdAt.getMinutes()}
+                    {`${post.createdAt.substr(0, 10)}, ${
+                      createdAt.getHours() > 9 ? createdAt.getHours() : "0" + createdAt.getHours()
+                    }:${
+                      createdAt.getMinutes() > 9
+                        ? createdAt.getMinutes()
+                        : "0" + createdAt.getMinutes()
+                    }`}
                   </p>
                 </div>
                 <hr className="mb-4 text-gray-300 md:mb-8" />
@@ -63,6 +66,17 @@ export default function PostPage({ content, post }) {
                 className="mx-auto prose md:prose-lg lg:prose-xl prose-blue"
                 dangerouslySetInnerHTML={{ __html: md.render(content) }}
               ></div>
+              {post.source && (
+                <Link passHref href={post.source}>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-5 text-xs text-blue-500 hover:underline"
+                  >
+                    Visit source document
+                  </a>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -70,30 +84,6 @@ export default function PostPage({ content, post }) {
     </>
   );
 }
-
-// export async function getStaticPaths() {
-//   // const files = fs.readdirSync(path.join("posts"));
-//   // const paths = files.map((filename) => ({
-//   //   params: {
-//   //     slug: filename.replace(".md", "").split(" ").join("-"),
-//   //   },
-//   // }));
-
-//   const { data: post } = await fetch(`${server}/api/posts`, { method: "GET" }).then((res) =>
-//     res.json()
-//   );
-
-//   const paths = post.map((p) => ({
-//     params: {
-//       slug: p._id,
-//     },
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
 
 export async function getServerSideProps({ params: { slug } }) {
   const { data } = await fetch(`${server}/api/posts/${slug}`, { method: "GET" }).then((res) =>

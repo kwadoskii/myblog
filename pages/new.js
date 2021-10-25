@@ -15,6 +15,7 @@ export default function NewPage() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [coverImage, setCoverImage] = useState("");
+  const [source, setSource] = useState("");
   const [selectedTab, setSelectedTab] = useState("write");
 
   const { data: session, status } = useSession({
@@ -41,6 +42,7 @@ export default function NewPage() {
         content,
         excerpt,
         coverImage,
+        source,
         arthur: session.user.id,
       }),
     }).then((res) => res.json());
@@ -90,9 +92,10 @@ export default function NewPage() {
   return (
     <>
       <Head>
-        <title>New post</title>
+        <title>New post - Myblog</title>
       </Head>
-      <div className="px-3 h-minheightlg bg-blue-50">
+
+      <div className="min-h-screen px-3 bg-blue-50">
         <div className="flex flex-col max-w-5xl pt-8 mx-auto">
           <div className="flex flex-col mb-3.5">
             <label htmlFor="title" className="mb-1.5 text-gray-700 font-semibold">
@@ -140,18 +143,33 @@ export default function NewPage() {
               placeholder="Brief summary of the post"
             />
           </div>
-          <div className="flex flex-col my-3.5">
-            <label htmlFor="coverImage" className="mb-1.5 text-gray-700 font-semibold">
-              Cover image URL
-            </label>
-            <input
-              type="url"
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              id="coverImage"
-              className="p-2.5 rounded-lg outline-none focus:ring-2 text-lg w-full mx-auto"
-              placeholder="Link to cover image"
-            />
+          <div className="flex my-3.5 gap-3 flex-col md:flex-row">
+            <div className="flex flex-col w-full">
+              <label htmlFor="source" className="mb-1.5 text-gray-700 font-semibold">
+                Source Url
+              </label>
+              <input
+                type="url"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+                id="source"
+                className="p-2.5 rounded-lg outline-none focus:ring-2 text-lg w-full mx-auto"
+                placeholder="Link to cover image"
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              <label htmlFor="coverImage" className="mb-1.5 text-gray-700 font-semibold">
+                Cover image URL
+              </label>
+              <input
+                type="url"
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                id="coverImage"
+                className="p-2.5 rounded-lg outline-none focus:ring-2 text-lg w-full mx-auto"
+                placeholder="Link to cover image"
+              />
+            </div>
           </div>
 
           <div className="flex">
@@ -166,33 +184,5 @@ export default function NewPage() {
         </div>
       </div>
     </>
-    // <div className="min-h-screen bg-blue-50 ">
-    //   {/*md:h-minheightlg h-minheight */}
-    //   <div className="max-w-5xl mx-auto">
-    //     <div className="flex flex-col gap-3 px-3 py-5 h-[600px] md:h-[800px]">
-    //       <div className="flex flex-col flex-grow">
-    //         <label htmlFor="content" className="mb-3 text-lg text-gray-700">
-    //           Content
-    //         </label>
-
-    //         <textarea
-    //           className="h-full p-3 text-lg transition-all duration-150 ease-linear rounded-lg outline-none resize-none md:p-6 focus:shadow-lg"
-    //           id="content"
-    //           placeholder="Enter post here"
-    //           value={content}
-    //           onChange={(e) => setContent(e.target.value)}
-    //         />
-    //       </div>
-
-    //       <button
-    //         type="submit"
-    //         className="p-3 mt-3 text-white transition-all duration-150 ease-linear bg-blue-500 rounded-lg shadow-lg outline-none active:scale-95 md:w-2/5"
-    //         onClick={(e) => submitPost(e)}
-    //       >
-    //         Post
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

@@ -27,6 +27,16 @@ const postSchema = new Schema(
     },
     coverImage: {
       type: String,
+      max: 1000,
+    },
+    source: {
+      type: String,
+      max: 1000,
+    },
+    views: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
 
     __v: { select: false },
