@@ -11,7 +11,7 @@ export default function Home({ posts }) {
       </Head>
 
       <main className="min-h-screen bg-blue-50">
-        <div className="container grid justify-center p-3 mx-auto md:px-4 md:py-9 gap-y-5 gap-x-4 grid-cols-auto-fill auto-rows-10px">
+        <div className="grid justify-center max-w-6xl p-4 mx-auto sm:px-5 md:px-6 md:py-9 gap-y-5 gap-x-4 grid-cols-auto-fill auto-rows-10px">
           {posts.map((post, index) => (
             <Post post={post} key={index} />
           ))}

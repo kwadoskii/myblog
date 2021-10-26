@@ -52,6 +52,7 @@ export default function NewPage() {
       setContent("");
       setExcerpt("");
       setCoverImage("");
+      setSource("");
       alert(message);
     } else {
       alert("Something went wrong try again.");

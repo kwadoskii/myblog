@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(0, 1fr))",
-        "auto-fill": "repeat(auto-fill, minmax(0, 350px))",
+        "auto-fill": "repeat(auto-fill, minmax(min(100%, 300px), 1fr))",
       },
       gridTemplateRows: {
         "auto-fit": "repeat(auto-fit, minmax(0, 1fr))",
@@ -39,5 +39,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/line-clamp")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/line-clamp"),
+    require("tailwindcss-debug-screens"),
+  ],
 };
