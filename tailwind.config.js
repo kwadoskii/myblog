@@ -16,7 +16,7 @@ module.exports = {
         "10px": "10px",
       },
       gridRowEnd: {
-        small: "span 6",
+        small: "span 4",
         medium: "span 16",
         medium2: "span 17",
         medium3: "span 18",
