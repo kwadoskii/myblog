@@ -14,7 +14,7 @@ export default function PostPage({ content, post }) {
   return (
     <>
       <Head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <title>{`${post.title} - My Blog`}</title>
 
         <meta name="description" content={post.excerpt} />
