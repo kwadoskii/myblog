@@ -14,7 +14,30 @@ export default function PostPage({ content, post }) {
   return (
     <>
       <Head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>{`${post.title} - My Blog`}</title>
+
+        <meta name="description" content={post.excerpt} />
+        <meta name="keywords" content="tsb, kwadoskii, myblog, tsb-test, kw-my-blog" />
+        <meta name="author" content={`${post.arthur.firstname} ${post.arthur.lastname}`} />
+
+        {/* for facebook and or twitter */}
+        <meta property="og:title" content={post.title} />
+        <meta property="og:url" content={`${server}/blog/${post._id}`} />
+        <meta property="og:image" content={post.coverImage || `${server}/images/logo.png`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:locale" content="en_US" />
+
+        {/* twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@tsb" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:url" content={`${server}/blog/${post._id}`} />
+        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:image" content={post.coverImage || `${server}/images/logo.png`} />
+        {/* useful for the individual creator twitter handle */}
+        {/* <meta name="twitter:creator" content="@arthurusername"/>  */}
       </Head>
 
       <main className="min-h-screen bg-blue-50">
@@ -40,7 +63,7 @@ export default function PostPage({ content, post }) {
                     <div className="relative w-9 h-9">
                       <img
                         src={generator.generateRandomAvatar(post.arthur.username)}
-                        alt=""
+                        alt={post.title}
                         className="w-full h-full"
                       />
                     </div>
