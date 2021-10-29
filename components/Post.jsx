@@ -22,7 +22,7 @@ export default function Post({ post }) {
               <img
                 src={post.coverImage}
                 className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-t-lg"
-                alt=""
+                alt={post.title}
               />
             </div>
           )}

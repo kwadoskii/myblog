@@ -53,9 +53,9 @@ export default function PostPage({ content, post }) {
               </div>
             )}
 
-            <div className="p-5 px-8 lg:p-12">
+            <div className="p-4 lg:p-12">
               <div>
-                <h3 className="mb-3 text-3xl font-black text-gray-800 md:font-black md:text-5xl">
+                <h3 className="mb-3 text-2xl font-black text-gray-800 md:font-black md:text-5xl">
                   {post.title}
                 </h3>
                 <div className="flex items-center gap-5 my-3 mb-4">
@@ -113,7 +113,6 @@ export async function getServerSideProps({ params: { slug } }) {
     res.json()
   );
 
-  //increment post view counts
   if (!data) {
     return {
       notFound: true,
