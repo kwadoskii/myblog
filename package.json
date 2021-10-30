@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.1.2",
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.23.0",
     "bcryptjs": "^2.4.3",
