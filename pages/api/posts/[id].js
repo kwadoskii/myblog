@@ -11,6 +11,8 @@ export default async function handler(req, res) {
     console.log("db connected and running");
 
     const id = validateId(req, res);
+    if (id === null) return res.status(404).json({ status: "error", message: "Invalid id" });
+
     let post = await Post.findById(id)
       .populate("arthur", ["-password", "-__v", "-createdAt", "-updatedAt"], "User")
       .select(["-__v", "-updatedAt"]);

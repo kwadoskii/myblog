@@ -9,9 +9,11 @@ export default async function handler(req, res) {
 
   try {
     await connect(DB_URI, DB_OPTIONS);
-    console.log("db connected and running");
+    console.log("users\\:id db connected and running");
 
     const id = validateId(req, res);
+    if (id === null) return res.status(404).json({ status: "error", message: "Invalid id" });
+
     let user = await User.findById(id).select(["-__v", "-createdAt", "-updatedAt", "-password"]);
 
     if (!user) res.status(404).send({ status: "error", message: `User with id ${id} not found!` });
@@ -62,6 +64,6 @@ export default async function handler(req, res) {
     console.log(error);
     res.status(500).send({ status: "error", message: error.name });
   } finally {
-    disconnect().then(() => console.log("db disconnected"));
+    disconnect().then(() => console.log("users\\:id db disconnected"));
   }
 }
