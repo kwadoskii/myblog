@@ -56,8 +56,12 @@ export const validatePost = (post) => {
     content: Joi.string().min(2).required(),
     excerpt: Joi.string().required().trim().min(2).max(300),
     arthur: Joi.objectId().required(),
-    coverImage: Joi.string().max(1000).uri(),
-    source: Joi.string().max(1000).uri(),
+    coverImage: Joi.string()
+      .max(1000)
+      .uri()
+      .message("coverImage must be a valid url")
+      .allow("", null),
+    source: Joi.string().max(1000).uri().message("coverImage must be a valid url").allow("", null),
     views: Joi.number().min(0).integer(),
   }).options({ abortEarly: false });
 
