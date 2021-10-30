@@ -1,6 +1,7 @@
 import { connect, disconnect } from "mongoose";
-import { User } from "../../../models/users";
+import { User, validateUser } from "../../../models/users";
 import { POST, GET, DB_OPTIONS, DB_URI } from "../../../configs/methods";
+import bcrypt from "bcryptjs";
 
 export default async function post(req, res) {
   const { method } = req;
@@ -18,8 +19,20 @@ export default async function post(req, res) {
     }
 
     if (method === POST) {
-      let user = new User({ ...req.body });
+      // validate input
+      const { error, value } = validateUser(req.body);
+      if (error)
+        return res.status(400).send({
+          status: "error",
+          message: error.details.map((d) => d.message.replaceAll(/\"/g, "")),
+        });
+
+      let user = new User({ ...value });
+
+      const salt = await bcrypt.genSalt(11);
+      user.password = await bcrypt.hash(user.password, salt);
       await user.save();
+
       user = await User.findById(user._id).select([
         "-__v",
         "-login",
@@ -37,7 +50,13 @@ export default async function post(req, res) {
 
     return res.status(404).json({ status: "error", message: "Http method not found!" });
   } catch (error) {
-    console.log(error);
+    if (error.name === "ValidationError") {
+      console.log("Post validation error");
+      res.status(422).send({ status: "error", message: `${error.message}` });
+    } else {
+      console.log(error);
+      res.status(500).send({ status: "internal server error", message: error.message });
+    }
   } finally {
     disconnect().then(() => console.log("db disconnected"));
   }

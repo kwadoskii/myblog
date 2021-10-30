@@ -11,9 +11,13 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.23.0",
+    "bcryptjs": "^2.4.3",
     "gray-matter": "^4.0.3",
+    "joi": "^17.4.2",
+    "joi-objectid": "^4.0.2",
     "marked": "^3.0.7",
     "mongoose": "^6.0.11",
+    "mongoose-referrence-validator": "^1.0.0",
     "next": "11.1.2",
     "next-auth": "^4.0.0-beta.4",
     "random-avatar-generator": "^2.0.0",

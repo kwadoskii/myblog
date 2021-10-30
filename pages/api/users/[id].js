@@ -1,7 +1,8 @@
 import { DELETE, GET, PATCH, DB_OPTIONS, DB_URI } from "../../../configs/methods";
-import { User } from "../../../models/users";
+import { User, validateUserPatch } from "../../../models/users";
 import { connect, disconnect } from "mongoose";
 import validateId from "../../../middlewares/validateObjectIds";
+import bcrypt from "bcryptjs";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -11,13 +12,7 @@ export default async function handler(req, res) {
     console.log("db connected and running");
 
     const id = validateId(req, res);
-    let user = await User.findById(id).select([
-      "-__v",
-      "-login",
-      "-createdAt",
-      "-updatedAt",
-      "-password",
-    ]);
+    let user = await User.findById(id).select(["-__v", "-createdAt", "-updatedAt", "-password"]);
 
     if (!user) res.status(404).send({ status: "error", message: `User with id ${id} not found!` });
 
@@ -26,7 +21,15 @@ export default async function handler(req, res) {
     }
 
     if (method === PATCH) {
-      const { username, email } = req.body;
+      // validate entries
+      const { error, value } = validateUserPatch(req.body);
+
+      if (error)
+        return res
+          .status(422)
+          .send({ status: "error", message: error.details[0].message.replaceAll(/\"/g, "") });
+
+      const { username, email } = value;
       const userExists = await User.findOne({ $or: [{ username }, { email }] });
 
       if (userExists)
@@ -34,17 +37,19 @@ export default async function handler(req, res) {
           .status(402)
           .send({ status: "error", message: "Username or email already exists" });
 
-      const newUser = await User.findByIdAndUpdate(id, { ...req.body }, { new: true }).select([
-        "-__v",
-        "-login",
-        "-createdAt",
-        "-updatedAt",
-        "-password",
-      ]);
+      const salt = await bcrypt.genSalt(11);
+      const hashPassword = await bcrypt.hash(req.body.password, salt);
+      delete req.body.password;
+
+      const userToPatch = await User.findByIdAndUpdate(
+        id,
+        { ...req.body, password: hashPassword },
+        { new: true }
+      ).select(["-__v", "-login", "-createdAt", "-updatedAt", "-password"]);
 
       return res
         .status(202)
-        .send({ status: "success", message: `User with id ${id} updated.`, data: newUser });
+        .send({ status: "success", message: `User with id ${id} updated.`, data: userToPatch });
     }
 
     if (method === DELETE) {
@@ -55,6 +60,7 @@ export default async function handler(req, res) {
     return res.status(404).send({ status: "error", message: "HTTP method not found" });
   } catch (error) {
     console.log(error);
+    res.status(500).send({ status: "error", message: error.name });
   } finally {
     disconnect().then(() => console.log("db disconnected"));
   }

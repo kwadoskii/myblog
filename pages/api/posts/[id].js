@@ -1,5 +1,5 @@
 import { DELETE, GET, PATCH, DB_OPTIONS, DB_URI } from "../../../configs/methods";
-import { Post } from "../../../models/posts";
+import { Post, validatePostPatch } from "../../../models/posts";
 import { connect, disconnect } from "mongoose";
 import validateId from "../../../middlewares/validateObjectIds";
 
@@ -24,11 +24,15 @@ export default async function handler(req, res) {
     }
 
     if (method === PATCH) {
-      const newPost = await Post.findByIdAndUpdate(
-        id,
-        { content: req.body.content },
-        { new: true }
-      ).select({ __v: false });
+      const { value, error } = validatePostPatch(req.body);
+      if (error)
+        return res
+          .status(422)
+          .send({ status: "error", message: error.details[0].message.replaceAll(/\"/g, "") });
+
+      const newPost = await Post.findByIdAndUpdate(id, { ...value }, { new: true }).select({
+        __v: false,
+      });
       return res
         .status(202)
         .send({ status: "success", message: `Post with id ${id} updated.`, data: newPost });
@@ -40,6 +44,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send({ status: "error", message: error.name });
   } finally {
     disconnect().then(() => console.log("db disconnected"));
   }
