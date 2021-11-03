@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
+import MansoryLayout from "../components/MansoryLayout";
 import Post from "../components/Post";
 import { server } from "../configs/server";
 
@@ -39,11 +40,11 @@ export default function Home({ posts }) {
       </Head>
 
       <main className="min-h-screen bg-blue-50">
-        <div className="grid justify-center max-w-6xl p-4 mx-auto sm:px-5 md:px-6 md:py-9 gap-y-5 gap-x-4 grid-cols-auto-fill auto-rows-10px">
+        <MansoryLayout classes="max-w-6xl p-4 mx-auto md:px-7 md:py-9">
           {posts.map((post) => (
             <Post post={post} key={post._id} />
           ))}
-        </div>
+        </MansoryLayout>
       </main>
 
       <Footer />

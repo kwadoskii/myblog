@@ -7,7 +7,7 @@ export default function Header() {
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-between w-full px-3 py-2 text-2xl font-semibold text-white bg-blue-500 shadow-lg md:h-16"></div>
+      <div className="flex items-center justify-between w-full px-3 py-2 text-2xl font-semibold text-white bg-blue-500 shadow-lg h-14"></div>
     );
   }
 
