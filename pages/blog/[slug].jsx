@@ -4,9 +4,25 @@ import { linkify } from "remarkable/linkify";
 import { server } from "../../configs/server";
 import { AvatarGenerator } from "random-avatar-generator";
 import Link from "next/link";
+import hljs from "highlight.js";
 
 export default function PostPage({ content, post }) {
-  const md = new Remarkable({ typographer: true });
+  const md = new Remarkable({
+    typographer: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value;
+        } catch (err) {}
+      }
+
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (err) {}
+
+      return ""; // use external default escaping
+    },
+  });
   md.use(linkify);
   const createdAt = new Date(post.createdAt);
   const generator = new AvatarGenerator();
@@ -17,6 +33,12 @@ export default function PostPage({ content, post }) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <title>{`${post.title} - My Blog`}</title>
 
+        <link
+          rel="stylesheet"
+          // href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/arta.min.css"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/stackoverflow-dark.min.css"
+          // href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/rainbow.min.css"
+        />
         <meta name="description" content={post.excerpt} />
         <meta name="keywords" content="tsb, kwadoskii, myblog, tsb-test, kw-my-blog" />
         <meta name="author" content={`${post.arthur.firstname} ${post.arthur.lastname}`} />

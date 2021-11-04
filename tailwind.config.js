@@ -1,3 +1,5 @@
+const { backgroundColor } = require("tailwindcss/defaultTheme");
+
 module.exports = {
   mode: "jit",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
@@ -31,6 +33,9 @@ module.exports = {
           css: {
             maxWidth: "100%",
             img: { borderRadius: "0.75rem", marginLeft: "auto", marginRight: "auto" },
+            pre: {
+              backgroundColor: "#090c10",
+            },
           },
         },
       },
