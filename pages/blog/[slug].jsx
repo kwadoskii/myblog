@@ -5,19 +5,20 @@ import { server } from "../../configs/server";
 import { AvatarGenerator } from "random-avatar-generator";
 import Link from "next/link";
 import hljs from "highlight.js";
+import Header from "../../components/Header";
 
 export default function PostPage({ content, post }) {
   const md = new Remarkable({
     typographer: true,
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
+    highlight: function (code, language) {
+      if (language && hljs.getLanguage(language)) {
         try {
-          return hljs.highlight(lang, str).value;
+          return hljs.highlight(code, { language }).value;
         } catch (err) {}
       }
 
       try {
-        return hljs.highlightAuto(str).value;
+        return hljs.highlightAuto(code).value;
       } catch (err) {}
 
       return ""; // use external default escaping
@@ -61,6 +62,8 @@ export default function PostPage({ content, post }) {
         {/* useful for the individual creator twitter handle */}
         {/* <meta name="twitter:creator" content="@arthurusername"/>  */}
       </Head>
+
+      <Header />
 
       <main className="min-h-screen bg-blue-50">
         <div className="max-w-6xl p-3 pb-6 mx-auto lg:px-4 lg:py-8">
