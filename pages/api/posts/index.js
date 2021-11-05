@@ -45,6 +45,7 @@ export default async function post(req, res) {
       console.log("Post validation error");
       res.status(422).send({ status: "error", message: `${error.message}` });
     } else {
+      console.log(error)
       res.status(500).send({ status: "internal server error", message: error });
     }
   } finally {
