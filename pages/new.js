@@ -55,6 +55,8 @@ export default function NewPage() {
       setCoverImage("");
       setSource("");
       alert(message);
+    } else if (message.length > 0) {
+      alert(`Error: ${message.join()}`);
     } else {
       alert("Something went wrong try again.");
     }
