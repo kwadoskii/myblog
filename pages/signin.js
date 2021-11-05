@@ -4,7 +4,7 @@ import Head from "next/head";
 import { getCsrfToken, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 
-export default function signin({ csrfToken }) {
+export default function SigninPage({ csrfToken }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { query } = useRouter();
