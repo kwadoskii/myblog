@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 export default function MansoryLayout({ children, classes }) {
   const [size, setSize] = useState([0, 0]);
@@ -39,7 +39,6 @@ export default function MansoryLayout({ children, classes }) {
       columnWrapper[`column${columnIndex}`]?.push(<>{children[i]}</>);
     }
 
-    console.log(columnWrapper);
     for (let i = 0; i < columns; i++) {
       results.push(columnWrapper[`column${i}`]);
     }
@@ -50,9 +49,11 @@ export default function MansoryLayout({ children, classes }) {
 
   return (
     <div className={`grid ${gridColClass} gap-y-5 gap-x-4 ${classes}`}>
-      {splittedData.map((data, i) => (
+      {splittedData.map((postsInCols, i) => (
         <div className="flex flex-col flex-wrap gap-4" key={i}>
-          {data}
+          {postsInCols.map((post, j) => (
+            <Fragment key={`${i}${j}`}>{post}</Fragment>
+          ))}
         </div>
       ))}
     </div>
