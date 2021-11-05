@@ -17,7 +17,6 @@ export default function SigninPage({ csrfToken }) {
     signIn("credentials", {
       username,
       password,
-
       callbackUrl: localStorage.getItem("redirectUrl"),
     });
   };

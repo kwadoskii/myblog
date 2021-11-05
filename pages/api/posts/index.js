@@ -23,7 +23,7 @@ export default async function post(req, res) {
       if (error)
         return res.status(400).send({
           status: "error",
-          message: error.details.map((d) => d.message.replaceAll(/\"/g, "")),
+          message: error.details.map((d) => d.message.replace(/\"/g, "")),
         });
 
       let post = new Post({ ...value });
@@ -45,7 +45,7 @@ export default async function post(req, res) {
       console.log("Post validation error");
       res.status(422).send({ status: "error", message: `${error.message}` });
     } else {
-      console.log(error)
+      console.log(error);
       res.status(500).send({ status: "internal server error", message: error });
     }
   } finally {

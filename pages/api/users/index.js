@@ -24,7 +24,7 @@ export default async function post(req, res) {
       if (error)
         return res.status(400).send({
           status: "error",
-          message: error.details.map((d) => d.message.replaceAll(/\"/g, "")),
+          message: error.details.map((d) => d.message.replace(/\"/g, "")),
         });
 
       let user = new User({ ...value });

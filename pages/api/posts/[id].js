@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       if (error)
         return res
           .status(422)
-          .send({ status: "error", message: error.details[0].message.replaceAll(/\"/g, "") });
+          .send({ status: "error", message: error.details[0].message.replace(/\"/g, "") });
 
       const newPost = await Post.findByIdAndUpdate(id, { ...value }, { new: true }).select({
         __v: false,

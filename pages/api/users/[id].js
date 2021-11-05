@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       if (error)
         return res
           .status(422)
-          .send({ status: "error", message: error.details[0].message.replaceAll(/\"/g, "") });
+          .send({ status: "error", message: error.details[0].message.replace(/\"/g, "") });
 
       const { username, email } = value;
       const userExists = await User.findOne({ $or: [{ username }, { email }] });
