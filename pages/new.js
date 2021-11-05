@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import ReactMde from "react-mde";
 import { Remarkable } from "remarkable";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import Header from "../components/Header";
 
 export default function NewPage() {
   const router = useRouter();
@@ -73,8 +74,8 @@ export default function NewPage() {
             value: "@andre",
           },
           {
-            preview: "Ife",
-            value: "@ifeloluwa",
+            preview: "Kwadoskii",
+            value: "@kwadoskii",
           },
           {
             preview: "Walata",
@@ -95,6 +96,8 @@ export default function NewPage() {
       <Head>
         <title>New post - Myblog</title>
       </Head>
+
+      <Header />
 
       <div className="min-h-screen px-3 bg-blue-50">
         <div className="flex flex-col max-w-5xl pt-8 mx-auto">

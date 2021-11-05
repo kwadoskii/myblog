@@ -2,8 +2,6 @@ import { SessionProvider } from "next-auth/react";
 import ProgressBar from "@badrap/bar-of-progress";
 import Router from "next/router";
 
-import Header from "../components/Header";
-
 import "../styles/globals.css";
 
 const progress = new ProgressBar({
@@ -19,12 +17,9 @@ Router.events.on("routeChangeError", progress.finish);
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <>
-      <SessionProvider session={session} refetchInterval={5 * 60}>
-        <Header />
-        <Component {...pageProps} />
-      </SessionProvider>
-    </>
+    <SessionProvider session={session} refetchInterval={5 * 60}>
+      <Component {...pageProps} />
+    </SessionProvider>
   );
 }
 

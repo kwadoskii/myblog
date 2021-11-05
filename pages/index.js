@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 import MansoryLayout from "../components/MansoryLayout";
 import Post from "../components/Post";
 import { server } from "../configs/server";
@@ -39,6 +40,7 @@ export default function Home({ posts }) {
         <meta name="twitter:image" content={`${server}/images/logo.png`} />
       </Head>
 
+      <Header />
       <main className="min-h-screen bg-blue-50">
         <MansoryLayout classes="max-w-6xl p-4 mx-auto md:px-7 md:py-9">
           {posts.map((post) => (
