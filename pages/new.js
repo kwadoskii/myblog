@@ -23,7 +23,7 @@ export default function NewPage() {
     required: true,
     onUnauthenticated() {
       // The user is not authenticated, handle it here.
-      router.replace("/api/auth/signin");
+      router.replace("/signin");
     },
   });
 

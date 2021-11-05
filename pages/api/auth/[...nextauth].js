@@ -14,6 +14,10 @@ const options = {
       },
 
       async authorize(credentials) {
+        if (credentials.username === undefined && credentials.password === undefined) {
+          return "/signin";
+        }
+
         const url = `${server}/api/users/login`;
         const {
           data: { data: user },
@@ -22,10 +26,10 @@ const options = {
         if (user) {
           return user;
         } else {
-          return null;
+          return "/signin?error=invalid_credentials";
         }
       },
-      // pages: { error: "/signin" },
+      pages: { signIn: "/signin", signOut: "/signin" },
     }),
   ],
   session: {
@@ -44,20 +48,34 @@ const options = {
     async jwt({ token, account }) {
       // add fields to the jwt token
       if (account) {
-        token.test = "test token";
+        // token.test = "test token";
       }
       return token;
     },
     async session({ session, user, token }) {
-      const {
-        data: { data },
-      } = await axios.get(`${server}/api/users/${token.sub}`);
+      if (user) {
+        const {
+          data: { data },
+        } = await axios.get(`${server}/api/users/${token.sub}`);
 
-      session.user.id = token.sub;
-      session.user.username = data.username;
+        session.user.id = token.sub;
+        session.user.username = data.username;
+      }
 
       return session;
     },
+    async signIn({ user, account, profile, email, credentials }) {
+      if (typeof user !== "string") {
+        return true;
+      } else if (user === "/signin") {
+        return "/signin";
+      } else {
+        return "/signin?error=invalid_credentials";
+      }
+    },
+    // redirect({ url, baseUrl }) {
+    //   return url.startsWith(baseUrl) ? url : baseUrl;
+    // },
   },
 };
 

@@ -1,9 +1,19 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+  const handleSignInSignOut = () => {
+    if (session) {
+      return signOut();
+    } else {
+      localStorage.setItem("redirectUrl", location.href);
+      return signIn("credentials");
+    }
+  };
 
   if (status === "loading") {
     return (
@@ -40,7 +50,7 @@ export default function Header() {
             )}
             <button
               className="px-3 py-0.5  font-medium text-blue-500 bg-white outline-none ring-1 ring-white rounded-md transition-all ease-linear hover:shadow-lg hover:bg-opacity-90 active:scale-95 duration-100"
-              onClick={() => (session ? signOut() : signIn())}
+              onClick={handleSignInSignOut}
             >
               {session ? "Sign out" : "Sign in"}
             </button>
