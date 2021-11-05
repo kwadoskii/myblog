@@ -53,14 +53,12 @@ const options = {
       return token;
     },
     async session({ session, user, token }) {
-      if (user) {
         const {
           data: { data },
         } = await axios.get(`${server}/api/users/${token.sub}`);
 
         session.user.id = token.sub;
         session.user.username = data.username;
-      }
 
       return session;
     },
